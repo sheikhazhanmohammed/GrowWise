@@ -1,5 +1,5 @@
 import  { useEffect, useRef, useState } from 'react'
-import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet'
+import { FeatureGroup, MapContainer } from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw';
 import { AOI } from '../../jotai';
 import { useAtom } from 'jotai';
@@ -9,7 +9,8 @@ import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 function Map() {
     const [currentAOI,setCurrentAOI] = useAtom(AOI)
     const [doesAOIexist,setDoesAOIexist] = useState(false)
-    const position = [51.505, -0.09];
+    const position = [ 30.774579801622792,74.6916079998744
+     ];
     const featureGroupRef = useRef(null);
     const colorDraw= "red"; // colour of AOI shapes
 

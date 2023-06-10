@@ -1,6 +1,9 @@
 import { Box, Button, Stack, TextField } from '@mui/material'
 import { useAtom } from 'jotai'
-import { AOI, budget, cropsGrownLastSeason, seasonOfNewCrops, sourceOfIrrigation } from '../../jotai';
+import { AOI, APIOutput, budget, cropsGrownLastSeason, seasonOfNewCrops, sourceOfIrrigation } from '../../jotai';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function RightInputSection() {
     const[currentCropsGrownLastSeason, setCurrentCropsGrownLastSeason] = useAtom(cropsGrownLastSeason);
@@ -8,6 +11,8 @@ function RightInputSection() {
     const[currentSeasonOfNewCrops, setCurrentSeasonOfNewCrops] = useAtom(seasonOfNewCrops);
     const[currentSourceOfIrrigation, setCurrentSourceOfIrrigation] = useAtom(sourceOfIrrigation);
     const[currentAOI] =useAtom(AOI)
+    const [currentAPIOutput,setAPIOutput] =useAtom(APIOutput)
+    const navigate = useNavigate();
 
   return (
     <>
@@ -22,15 +27,33 @@ function RightInputSection() {
         <div style={{ padding: 5 }}> What is your main source of irrigation?</div>
         <TextField id="filled-basic" label="Source of irrigation" variant="filled" onChange={(e)=>(setCurrentSourceOfIrrigation(e.target.value))}/>
       <Button variant="contained" onClick={()=>{
-        console.log(JSON.stringify({
-                "AOI":currentAOI,
-                "budget":currentBudget,
-                "seasonOfNewCrops":currentSeasonOfNewCrops,
-                "sourceOfIrrigation":currentSourceOfIrrigation,
-                "cropsGrownLastSeason":currentCropsGrownLastSeason
-            }
-        )
-    )
+        if((currentAOI)&&(currentBudget)&&(currentSeasonOfNewCrops)&&(currentSourceOfIrrigation)&&(currentCropsGrownLastSeason))
+        {
+          const DataBeingSent= JSON.parse(JSON.stringify({
+            "AOI":currentAOI,
+            "budget":currentBudget,
+            "seasonOfNewCrops":currentSeasonOfNewCrops,
+            "sourceOfIrrigation":currentSourceOfIrrigation,
+            "cropsGrownLastSeason":currentCropsGrownLastSeason
+        }
+    ))
+          console.log(DataBeingSent)
+          toast.loading("The ML gnomes are hard at work",{id:"load"});
+          axios.post("http://127.0.0.1:5000/call",DataBeingSent).then((response) => {
+            
+            console.log(response.data);
+            setAPIOutput(response.data);
+            toast.success("The ML gnomes hahve finished",{id:"load"});
+
+            navigate('/output');
+          }).catch(error => {
+            toast.error(error);
+        });
+        console.log("pop eorks!")}
+    else{
+      console.log("error");
+      toast.error("Please select farm area and enter all data");
+     }
 }}>
     Submit</Button>      
     </Stack>
