@@ -2,6 +2,7 @@ import { ButtonBase, Grid, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles';
 
 
+
 const Img = styled('img')({
     margin: 'auto',
     display: 'block',
@@ -10,12 +11,13 @@ const Img = styled('img')({
   });
 
 function ProductList({productList}) {
+  
     console.log("This is a product list",productList)
   return (
     <>
-    {
+    {productList.map((product)=>(
                 
-        productList.proddata.price.price!=0?(
+        product.proddata.price.price!=0?(
             
         <Paper
         sx={{
@@ -25,26 +27,26 @@ function ProductList({productList}) {
           backgroundColor: (theme) =>
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         }}
-        key={productList.proddata.price.displayID}
+        key={product.proddata.price.displayID}
         >
-        <ButtonBase sx={{ width: '100%', height: 128 }} onClick={()=>{window.open(productList.proddata.title.href,"_blank")}}>
+        <ButtonBase sx={{ width: '100%', height: 128 }} onClick={()=>{window.open(product.proddata.title.href,"_blank")}}>
         <Grid container spacing={2}>
             
           <Grid item sx={{ width: 128, height: 128 }}>
-              <Img alt="complex" src={productList.proddata.image.img_src} />
+              <Img alt="complex" src={product.proddata.image.img_src} />
         
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography gutterBottom variant="subtitle1" component="div" align="left">
-                  {productList.proddata.title.name}
+                  {product.proddata.title.name}
                 </Typography>
                 <Typography variant="body2" gutterBottom align="left">
-                  {productList.proddata.company.comp}
+                  {product.proddata.company.comp}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" align="left">
-                  ID: {productList.proddata.price.displayID}
+                  ID: {product.proddata.price.displayID}
                 </Typography>
               </Grid>
               <Grid item>
@@ -55,14 +57,14 @@ function ProductList({productList}) {
             </Grid>
             <Grid item>
               <Typography variant="subtitle1" component="div">
-              {productList.proddata.price.price}/{productList.proddata.price.unitType}
+              {product.proddata.price.price}/{product.proddata.price.unitType}
               </Typography>
             </Grid>
           </Grid>
           
         </Grid>
         </ButtonBase>
-      </Paper>):(<></>)}
+      </Paper>):(<></>)))}
       </>
       )
 }

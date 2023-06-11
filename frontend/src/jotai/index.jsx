@@ -14,4 +14,5 @@ export const ci= atom(null)
 
 export const ndsi= atom(null)
 export const unsuitableCrops = atom(null)
+export const IML = atom(null)
 
