@@ -22,12 +22,12 @@ async def handle_post_request(payload: dict):
     polygon = Polygon(data["AOI"]["geometry"]["coordinates"][0])
     lat = data["AOI"]["geometry"]["coordinates"][0][0][0]
     lon = data["AOI"]["geometry"]["coordinates"][0][0][1]
-    API_KEY = "bd5e378503939ddaee76f12ad7a97608"
+    API_KEY = "API KEY"
     weatherurl = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}"
     chatgpturl = "https://free.churchless.tech/v1/chat/completions"
     weatherdata = requests.get(weatherurl).json()
     
-    with rio.open("./hack_s2/area2.tif") as src:
+    with rio.open("./hack_s2/stacked.tif") as src:
         croppedimage, _ = mask(src, [polygon], crop=True, nodata=-999)
         ndmi = []
         for i in range(0, croppedimage[0].shape[0]):
@@ -40,7 +40,7 @@ async def handle_post_request(payload: dict):
 
     ndmi = sum(ndmi)/len(ndmi)
 
-    with rio.open("./hack_s2/area2.tif") as src:
+    with rio.open("./hack_s2/stacked.tif") as src:
         croppedimage, _ = mask(src, [polygon], crop=True, nodata=-999)
         ndsi = []
         for i in range(0, croppedimage[0].shape[0]):
@@ -53,7 +53,7 @@ async def handle_post_request(payload: dict):
 
     ndsi = sum(ndsi)/len(ndsi)
 
-    with rio.open("./hack_s2/area2.tif") as src:
+    with rio.open("./hack_s2/stacked.tif") as src:
         croppedimage, _ = mask(src, [polygon], crop=True, nodata=-999)
         bsi = []
         for i in range(0, croppedimage[0].shape[0]):
@@ -66,7 +66,7 @@ async def handle_post_request(payload: dict):
 
     bsi = sum(bsi)/len(bsi)
 
-    with rio.open("./hack_s2/area2.tif") as src:
+    with rio.open("./hack_s2/stacked.tif") as src:
         croppedimage, _ = mask(src, [polygon], crop=True, nodata=-999)
         ci = []
         for i in range(0, croppedimage[0].shape[0]):
