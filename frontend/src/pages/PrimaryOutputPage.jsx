@@ -1,5 +1,5 @@
 import CropOutput from '../components/CropOutput';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { APIOutput, bsi, ci, ndmi, ndsi } from '../jotai';
 import UnssupportedCrops from '../components/UnsuportedCrops';
@@ -13,7 +13,9 @@ const [currentNDMI] = useAtom(ndmi)
 const [currentBSI] = useAtom(bsi)
 const [currentCI] = useAtom(ci)
 const [uc] = useAtom(unsuitableCrops)
+
 console.log("JSSON",JSONData);
+console.log("thississuc",uc)
 
 return (
     
@@ -34,20 +36,20 @@ return (
     <Typography variant="h5"  align="left"  display="block">
         Unsuitable Crops:  
     </Typography>
-    <UnssupportedCrops UnssupportedCropsArray={uc}/>
+    <UnssupportedCrops UnsupportedCropsArray={uc}/>
     <br/><br/>
     <Typography variant="h5"  align="left" >
         Suitable Crops with related products:  
     </Typography>
+    <Grid container spacing={2} columns={16}>
+
     {JSONData?.map(cropData =>(
-        <>
-         <Typography variant="h3"  align="center">
-         {cropData.Crop} 
-         </Typography>
+        <Grid item xs={8}  key={cropData.name}>
         <CropOutput cropData={cropData} key={cropData.Crop}/>
-        </>
+        </Grid>
     ))
     }
+    </Grid>
     </>
 )
   

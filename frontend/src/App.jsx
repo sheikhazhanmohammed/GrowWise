@@ -7,15 +7,18 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import ProductType from "./components/ProductType";
 
 const App = () => {
   return (
     <>
+    
     <Toaster />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={ <PrimaryInputPage/>} />
         <Route path="/output" element={<PrimaryOutputPage/>} />
+        <Route path="/catalouge" element={<ProductType/>}/>
       </Routes>
     </BrowserRouter>
    

@@ -1,37 +1,43 @@
-import { Grid, Paper, Typography } from '@mui/material'
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
 
-function UnssupportedCrops({UnssupportedCropsArray}) {
+import Typography from '@mui/material/Typography';
+
+import { Grid } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+
+
+
+
+export default function UnsuportedCrops({UnsupportedCropsArray}) {
+  
   return (
-    UnssupportedCropsArray.map((uc)=>
-    <Paper
-    sx={{
-      p: 2,
-      margin: 3,
-      borderColor: "#000",
-      backgroundColor: (theme) =>
-      theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    }}
-    key={uc.cropName}
-    >
-    <Grid container spacing={2}>
-        
-      <Grid item xs={12} sm container>
-        <Grid item xs container direction="column" spacing={2}>
-          <Grid item xs>
-            <Typography gutterBottom variant="subtitle1" component="div" align="left">
-              {uc.cropName}
-            </Typography>
-            <Typography variant="body1" gutterBottom align="left">
-              {uc.reason}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+    <Grid container spacing={2} columns={16}>
+      {UnsupportedCropsArray.map((uc)=>(
+        <Grid item xs={8} key={uc.name}>
+    <Card sx={{ maxWidth: "auto" }}>
+      <CardHeader
+        title={uc.cropName}
+      />
       
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+         {uc.reason}
+        </Typography>
+      </CardContent>
+        
+      
+      
+    </Card>
     </Grid>
-  </Paper>)
-    
-  )
-}
 
-export default UnssupportedCrops
+      ))}
+           
+    </Grid>
+    
+  );
+}

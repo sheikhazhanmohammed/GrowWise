@@ -43,7 +43,12 @@ app.post("/call",async(req,res)=>{
                 let IMres = await axios(config);
                 
                 IMList.push(IMres.data.results);
-                temp={"Crop":crop.cropName,product:product,IMList:IMList}
+                temp={"Crop":crop.cropName,product:product,IMList:IMList,
+                startMonth: crop.startMonth,
+                endMonth: crop.endMonth,
+                farmingTechnique: crop.farmingTechnique,
+                shelfLife: crop.shelfLife,
+              }
             }
             JSONArrayToSEND.push(temp)
         }
