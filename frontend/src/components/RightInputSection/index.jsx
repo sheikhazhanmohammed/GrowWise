@@ -1,6 +1,6 @@
 import { Box, Button, Stack, TextField } from '@mui/material'
 import { useAtom } from 'jotai'
-import { AOI, APIOutput, budget, cropsGrownLastSeason, seasonOfNewCrops, sourceOfIrrigation } from '../../jotai';
+import { AOI, APIOutput, bsi, budget, ci, cropsGrownLastSeason, ndmi, ndsi, seasonOfNewCrops, sourceOfIrrigation, unsuitableCrops } from '../../jotai';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -10,6 +10,12 @@ function RightInputSection() {
     const[currentBudget, setCurrentBudget] = useAtom(budget);
     const[currentSeasonOfNewCrops, setCurrentSeasonOfNewCrops] = useAtom(seasonOfNewCrops);
     const[currentSourceOfIrrigation, setCurrentSourceOfIrrigation] = useAtom(sourceOfIrrigation);
+    const[currentNDMI,setNDMI]= useAtom(ndmi)
+    const[currentCI,setCI]= useAtom(ci)
+    const[currentBSI,setBSI]= useAtom(bsi)
+    const[currentNDSI,setNDSI]= useAtom(ndsi)
+    const[currentUC,setUC]= useAtom(unsuitableCrops)
+
     const[currentAOI] =useAtom(AOI)
     const [currentAPIOutput,setAPIOutput] =useAtom(APIOutput)
     const navigate = useNavigate();
@@ -42,10 +48,16 @@ function RightInputSection() {
           axios.post("http://127.0.0.1:5000/call",DataBeingSent).then((response) => {
             
             console.log(response.data);
-            setAPIOutput(response.data);
-            toast.success("The ML gnomes hahve finished",{id:"load"});
+            setAPIOutput(response.data.JSONArrayToSEND);
+            setNDMI(response.data.data.ndmi);
+            setBSI(response.data.data.bsi);
+            setNDSI(response.data.data.ndsi);
+            setCI(response.data.data.ci);
+            console.log(response.data.data.result.UnsuitableCrops)
+            setUC(response.data.data.result.UnsuitableCrops)
+            toast.success("The ML gnomes have finished",{id:"load"});
 
-            navigate('/output');
+           navigate('/output');
           }).catch(error => {
             toast.error(error);
         });

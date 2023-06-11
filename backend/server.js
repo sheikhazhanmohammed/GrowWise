@@ -47,7 +47,7 @@ app.post("/call",async(req,res)=>{
             }
             JSONArrayToSEND.push(temp)
         }
-        res.json(JSONArrayToSEND)
+        res.json({data,JSONArrayToSEND})
         // res.json(IMres.data.results);
     }catch(err){
         console.error(err.message);
